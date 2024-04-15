@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">AndroidStatusWidget</string>
+    <string-array name="signal_strength_labels">
+        <item>Excellent</item>
+        <item>Good</item>
+        <item>Fair</item>
+        <item>Poor</item>
+    </string-array>
+</resources>

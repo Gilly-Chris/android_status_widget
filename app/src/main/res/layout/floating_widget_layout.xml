@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="?android:attr/windowBackground"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/batteryPercentageTextView"
+        android:layout_width="wrap_content"
+        android:textColor="?android:textColorPrimary"
+        android:layout_height="wrap_content"
+        android:text="Battery Percentage: "
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/batteryTextView"
+        android:layout_width="wrap_content"
+        android:textColor="?android:textColorPrimary"
+        android:layout_height="wrap_content"
+        android:text="Battery Health: "
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/batteryLifeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?android:textColorPrimary"
+        android:text="Battery Life: "
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/networkTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?android:textColorPrimary"
+        android:text="Network: "
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/operatorTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Operator: "
+        android:textColor="?android:textColorPrimary"
+        android:textSize="14sp"/>
+
+</LinearLayout>
