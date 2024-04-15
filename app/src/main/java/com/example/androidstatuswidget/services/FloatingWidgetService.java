@@ -52,9 +52,10 @@ public class FloatingWidgetService extends Service {
         super.onCreate();
         Log.d(TAG, "Service onCreate()");
         overlayPermissionReceiver = new OverlayPermissionReceiver();
-        IntentFilter filter = new IntentFilter(ACTION_MANAGE_OVERLAY_PERMISSION);
-        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY); // Set priority if needed
-        registerReceiver(overlayPermissionReceiver, filter, null, null);
+        IntentFilter permissionFilter = new IntentFilter(ACTION_MANAGE_OVERLAY_PERMISSION);
+        permissionFilter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
+        registerReceiver(overlayPermissionReceiver, permissionFilter, null, null);
+        registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
     }
 
     @Override
@@ -97,9 +98,6 @@ public class FloatingWidgetService extends Service {
         // Add phone state listener to get network and operator info
         telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_SERVICE_STATE | PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
 
-        // Update battery info
-        updateBatteryInfo();
-
         // Add the view to the window manager
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
@@ -131,6 +129,7 @@ public class FloatingWidgetService extends Service {
             // Remove phone state listener
             telephonyManager.listen(phoneStateListener, PhoneStateListener.LISTEN_NONE);
             unregisterReceiver(overlayPermissionReceiver);
+            unregisterReceiver(batteryReceiver);
             Log.d(TAG, "Service destroyed");
         } catch (Exception e) {
             e.printStackTrace();
@@ -154,8 +153,7 @@ public class FloatingWidgetService extends Service {
 
     // Method to update battery info
     @SuppressLint("SetTextI18n")
-    private void updateBatteryInfo() {
-        Intent batteryIntent = getApplicationContext().registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+    private void updateBatteryInfo(Intent batteryIntent) {
         int level = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
         int scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
         int health = batteryIntent.getIntExtra(BatteryManager.EXTRA_HEALTH, BatteryManager.BATTERY_HEALTH_UNKNOWN);
@@ -234,4 +232,11 @@ public class FloatingWidgetService extends Service {
             }
         }
     }
+
+    private BroadcastReceiver batteryReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+           updateBatteryInfo(intent);
+        }
+    };
 }
